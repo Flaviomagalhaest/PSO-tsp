@@ -19,14 +19,6 @@ function plotTela(objetivo) {
         var circle = two.makeCircle(x, y, tamanhoCirc);
         circle.fill = '#000000';
     });
-
-    // if(objetivo !== undefined) { //SE PONTO OBJETIVO FOR PASSADO.
-    //     var x = (objetivo.x * elemJquery.width()) / valorMax;
-    //     var y = (objetivo.y * elemJquery.height()) / valorMax;
-    //     var circle = two.makeCircle(x, y, tamanhoCirc + 5);
-    //     circle.fill = '#e71c1c'; circle.stroke = '#e71c1c';
-    // }
-
     two.update();
 }
 
@@ -45,21 +37,19 @@ function gerarPontosIniciais() {
         
         locais.push(coord);
     }
+
     //Enviando pontos iniciais para o backend
-    $.ajax({
-        type: 'POST',
-        url: '/PSO-tsp/calcMatrixDist/',
-        contentType: 'application/json; charset=utf-8',
-        data: JSON.stringify({ 
-            pontos: JSON.stringify(locais)
-        }),
-        // success: function(response){
-        //     console.log(response);
-        // }
-    });
+    calcMatrixDist(JSON.stringify(locais));
 
     limparTela();
     plotTela();
+}
+
+function gerarIndivIniciais() {
+    var qtdIndiv = $('#qtdIndiv').val();
+    if(qtdIndiv > 0) {
+      
+    }
 }
 
 function gerarIteracao() {
@@ -85,4 +75,8 @@ function limparTelaClick() {
 
 function infoIndivClick() {
 
+}
+
+function criaIndivClick() {
+    gerarIndivIniciais();
 }
