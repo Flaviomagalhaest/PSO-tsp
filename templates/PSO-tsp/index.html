@@ -6,27 +6,41 @@
 <script src="{% static "PSO-tsp/js/two.min.js" %}"></script>
 <script src="{% static "PSO-tsp/js/jquery.min.js" %}"></script>
 <script src="{% static "PSO-tsp/js/tspController.js" %}"></script>
+<script src="{% static "PSO-tsp/js/ajaxController.js" %}"></script>
 </head>
 <body>
 <div id="tela"></div>
 <div id="menu">
-    <div class="botaoMenuDiv">
-        <input type="text" id="qtdLocais" placeholder="Qtd. de locais">
+    <div class="itemMenu">
+        <div class="botaoMenuDiv">
+            <input type="text" id="qtdLocais" placeholder="Qtd. de locais">
+        </div>       
+        <div class="botaoMenuDiv">
+            <a id="criaPontos" onclick="criaPontosClick()" class="botaoMenu btn--red">Criar pontos de locais</a>
+        </div>        
     </div>
-    <div class="botaoMenuDiv">
-        <input type="text" id="qtdIndiv" placeholder="Qtd. de Individuos">
-    </div>        
-    <div class="botaoMenuDiv">
-        <a id="criaPontos" onclick="criaPontosClick()" class="botaoMenu btn--red">Criar pontos de locais</a>
+    <div class="itemMenu">
+        <div class="botaoMenuDiv">
+            <input type="text" id="qtdIndiv" placeholder="Qtd. de Individuos">
+        </div>
+        <div class="botaoMenuDiv">
+            <a id="criarIndiv" onclick="criaIndivClick()" class="botaoMenu btn--red">Criar Individuos</a>
+        </div>
     </div>
-    <div class="botaoMenuDiv">
-        <a id="gerarIteracao" onclick="gerarIteracaoClick()" class="botaoMenu btn--blue">Gera prox. Iteração</a>
+    <div class="itemMenu">
+        <div class="botaoMenuDiv">
+            <a id="gerarIteracao" onclick="gerarIteracaoClick()" class="botaoMenu btn--blue">Gera prox. Iteração</a>
+        </div>
     </div>
-    <div class="botaoMenuDiv">
-        <a id="limpar" onclick="limparTelaClick()" class="botaoMenu btn--green">Limpar</a>
+    <div class="itemMenu">
+        <div class="botaoMenuDiv">
+            <a id="limpar" onclick="limparTelaClick()" class="botaoMenu btn--green">Limpar</a>
+        </div>
     </div>
-    <div class="botaoMenuDiv">
-        <a id="infoIndiv" onclick="infoIndivClick()" class="botaoMenu btn--blue">Info de Indiv.</a>
+    <div class="itemMenu">
+        <div class="botaoMenuDiv">
+            <a id="infoIndiv" onclick="infoIndivClick()" class="botaoMenu btn--blue">Info de Indiv.</a>
+        </div>
     </div>
 </div>
 </body>

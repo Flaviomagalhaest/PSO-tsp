@@ -27,7 +27,6 @@
     height: 50px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 5%;
 }
 
 .botaoMenu {
@@ -36,3 +35,8 @@
     height: 100%;
     border-radius: 10px;
 }
+
+.itemMenu {
+    margin-bottom: 15%
+}
+
