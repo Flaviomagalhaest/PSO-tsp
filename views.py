@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.template import loader
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from py.tsp import PontosClass as P
+from py.tsp import tspController as tspController
 import json
 
 def index(request):
@@ -13,13 +13,23 @@ def index(request):
 @csrf_exempt
 def calcMatrixDist(request):
     jsonAjax = request.body
-    data = json.loads(jsonAjax)     #Pontos iniciais vindo do frontend
-    pontosJson = json.loads(data['pontos']) #Transformando em json
+    data = json.loads(jsonAjax)     #Pontos iniciais vindo do frontend.
+    pontosJson = json.loads(data['pontos']) #Transformando em json.
 
-    pontosObj = P.Pontos(pontosJson)    #Instanciando classe de Pontos. Passando lista json
-    pontosObj.calcMatrixDist()      #Calculando para cada ponto em Pontos, sua matriz distância.
+    #Chamando controller que instanciará objeto de pontos e calculará matriz distância.
+    pontosObj = tspController.calcMatrixDist(pontosJson)
 
+    #Salvando informações de pontos em formato JSON em sessão.
     request.session['pontos'] = pontosObj.toJson()
+    request.session['qtdPontos'] = len(pontosObj.pontos)
+
+    return HttpResponse("Pontos iniciais recebidos com sucesso!")
+
+@csrf_exempt
+def geraPopInicial(request):
+    qtdIndiv = json.loads(request.body) #Recebendo quantidade de indivíduos a criar.
+    qtdPontos = request.session['qtdPontos']
+
     return HttpResponse("Pontos iniciais recebidos com sucesso!")
 
 @csrf_exempt

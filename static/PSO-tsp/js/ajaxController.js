@@ -13,18 +13,16 @@ function calcMatrixDist(locais) {
     });
 }
 
-function geraPopInicial() {
+function geraPopInicial(qtdIndiv) {
     //Envia para o back requisição de população inicial
     //Recebe Individuos criados
     $.ajax({
         type: 'POST',
-        url: '/PSO-tsp/calcMatrixDist/',
+        url: '/PSO-tsp/geraPopInicial/',
         contentType: 'application/json; charset=utf-8',
-        data: JSON.stringify({ 
-            pontos: JSON.stringify(locais)
-        }),
-        // success: function(response){
-        //     console.log(response);
-        // }
+        data: qtdIndiv,
+        success: function(response){
+            console.log(response);
+        }
     });      
 }

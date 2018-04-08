@@ -47,8 +47,9 @@ function gerarPontosIniciais() {
 
 function gerarIndivIniciais() {
     var qtdIndiv = $('#qtdIndiv').val();
+    var retornoAjax;
     if(qtdIndiv > 0) {
-      
+        retornoAjax = geraPopInicial(qtdIndiv);
     }
 }
 
