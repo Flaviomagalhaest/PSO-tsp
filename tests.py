@@ -1,14 +1,27 @@
 from django.test import TestCase
 from py.tsp import PontosClass as P
+from py.tsp import tspController as tspController
+import os
 
 
 class PSOTspTestCase(TestCase):
-    def test_geraMatrizDistanciaCorretamenteEJson(self):    
-        pontosJson = [{'x': 409, 'y': 728}, {'x': 697, 'y': 828}]
-        pontosObj = P.Pontos(pontosJson)   
-        pontosObj.calcMatrixDist()
-        self.assertEqual(pontosObj.pontos[0].matrixDist,[0.0, 304.86718419665965])
-        self.assertEqual(pontosObj.pontos[1].matrixDist,[304.86718419665965, 0.0])
-        self.assertEqual(pontosObj.toJson(),
-            '[{"x": 409, "y": 728, "matrix": [0.0, 304.86718419665965]}, {"x": 697, "y": 828, "matrix": [304.86718419665965, 0.0]}]'
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "psoweb.settings")
+
+    pontosJson = [{'x': 4, 'y': 0}, {'x': 2, 'y': 2}, {'x': 1, 'y': 1}]
+    pontosObj = tspController.calcMatrixDist(pontosJson)    
+
+    def test_geraMatrizDistanciaCorretamente(self):    
+        self.assertEqual(self.pontosObj.pontos[0].matrixDist,[0.0, 2.8284271247461903, 3.1622776601683795])
+        self.assertEqual(self.pontosObj.pontos[1].matrixDist,[2.8284271247461903, 0.0, 1.4142135623730951])
+        self.assertEqual(self.pontosObj.pontos[2].matrixDist,[3.1622776601683795, 1.4142135623730951, 0.0])
+
+    def test_geraJsonCorretamente(self):
+        self.assertEqual(self.pontosObj.toJson(),
+            '[{"x": 4, "y": 0, "matrix": [0.0, 2.8284271247461903, 3.1622776601683795]}, '+
+            '{"x": 2, "y": 2, "matrix": [2.8284271247461903, 0.0, 1.4142135623730951]}, '+
+            '{"x": 1, "y": 1, "matrix": [3.1622776601683795, 1.4142135623730951, 0.0]}]'
         )
+    
+    def test_geraDistTotalDeCaminhoCorretamente(self):
+        dist = self.pontosObj.calcDistDeCaminhos([2,1,0])
+        self.assertEqual(dist, 7.404918347287666)
