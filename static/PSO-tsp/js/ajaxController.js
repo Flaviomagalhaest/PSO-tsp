@@ -16,13 +16,18 @@ function calcMatrixDist(locais) {
 function geraPopInicial(qtdIndiv) {
     //Envia para o back requisição de população inicial
     //Recebe Individuos criados
+    var retorno
     $.ajax({
         type: 'POST',
         url: '/PSO-tsp/geraPopInicial/',
         contentType: 'application/json; charset=utf-8',
-        data: qtdIndiv,
+        data: JSON.stringify({ 
+            individuos: qtdIndiv
+        }),
         success: function(response){
             console.log(response);
+            retorno = response;
         }
-    });      
+    });    
+    return retorno;  
 }
