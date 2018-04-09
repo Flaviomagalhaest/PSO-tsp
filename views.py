@@ -27,10 +27,16 @@ def calcMatrixDist(request):
 
 @csrf_exempt
 def geraPopInicial(request):
-    qtdIndiv = json.loads(request.body) #Recebendo quantidade de indivíduos a criar.
+    jsonAjax = json.loads(request.body) #Recebendo quantidade de indivíduos a criar.
+    
+    qtdIndiv = json.loads(jsonAjax['individuos'])
     qtdPontos = request.session['qtdPontos']
-
-    return HttpResponse("Pontos iniciais recebidos com sucesso!")
+    pontosSessao = request.session['pontos']
+    #Gerando individuos iniciais
+    individuos = tspController.geraPopInicial(qtdIndiv, qtdPontos, pontosSessao)
+    individuosJson = [i.toJson() for i in individuos]   #Criando lista de individuo em formato serializável em json
+    request.session['individuos'] = individuosJson    #Salvando individuos em sessão
+    return JsonResponse(individuosJson, safe=False)
 
 @csrf_exempt
 def teste(request):
