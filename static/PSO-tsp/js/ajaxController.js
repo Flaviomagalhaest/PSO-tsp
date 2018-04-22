@@ -20,12 +20,12 @@ function geraPopInicial(qtdIndiv) {
     $.ajax({
         type: 'POST',
         url: '/PSO-tsp/geraPopInicial/',
+        async: false,
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify({ 
             individuos: qtdIndiv
         }),
         success: function(response){
-            console.log(response);
             retorno = response;
         }
     });    
