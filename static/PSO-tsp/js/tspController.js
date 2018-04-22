@@ -71,12 +71,25 @@ function infoIndiv() {
 
 function montaModalComIndividuos() {
     html = '<div class="accordion"> \
-    <div class="accordion-section"> \
-    <a class="accordion-section-title" href="#accordion-1">Accordion Section #1</a> \
-    <div id="accordion-1" class="accordion-section-content"> \
-    <p>Mauris interdum fringilla augue vitae tincidunt. Curabitur vitae tortor id eros euismod ultrices. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Praesent nulla mi, rutrum ut feugiat at, vestibulum ut neque? Cras tincidunt enim vel aliquet facilisis. Duis congue ullamcorper vehicula. Proin nunc lacus, semper sit amet elit sit amet, aliquet pulvinar erat. Nunc pretium quis sapien eu rhoncus. Suspendisse ornare gravida mi, et placerat tellus tempor vitae.</p> \
-    </div><!--end .accordion-section-content--> \
-    </div><!--end .accordion-section--> \
+    <div class="accordion-section">' ;
+    var count = 0;
+    individuos.forEach(function(e){
+        var classe = 'accordion-section-title';
+        if(e.gbest) {
+            classe += ' gbest';
+        } else if (e.distAtual < e.distPbest) {
+            classe += ' melhora';   //Adicionando classe nova para indivíduos que melhoraram seu pbest
+        }
+        html += '<a class="'+classe+'" href="#accordion-'+count+'">Individuo #'+count+'</a> \
+        <div id="accordion-'+count+'" class="accordion-section-content"> \
+        <p>Caminho atual : ['+e.atual.toString()+']</p> \
+        <p>Distância atual : '+e.distAtual.toString()+'</p> \
+        <p>Caminho pBest : ['+e.pbest.toString()+']</p> \
+        <p>Distância pBest : '+e.distPbest.toString()+'</p> \
+        </div><!--end .accordion-section-content-->';
+        count++;
+    });
+    html += '</div><!--end .accordion-section--> \
     </div><!--end .accordion--> \
     '
     return html;

@@ -422,10 +422,7 @@
     max-width: 48rem;
     margin: 0 auto; }
   
-  a {
-    color: #3498db; }
-    a:hover, a:focus, a:active {
-      color: #217dbb; }
+
   
   .bg--red {
     background-color: #e74c3c; }
