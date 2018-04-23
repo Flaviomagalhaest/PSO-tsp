@@ -39,6 +39,18 @@ def geraPopInicial(request):
     return JsonResponse(individuosJson, safe=False)
 
 @csrf_exempt
+def geraIteracao(request):
+    jsonAjax = json.loads(request.body) #Recebendo numero de iteracao atual e a quantidade a calcular
+    iteracaoAtual = jsonAjax['iteracaoAtual']
+    nrIteracoes = jsonAjax['nrIteracoes']
+    individuosJson = request.session['individuos']
+    #Gerando iteracoes e atualizando individuos
+    individuos = tspController.geraIteracao(iteracaoAtual,nrIteracoes,individuosJson)
+    return JsonResponse('{[]}', safe=False)
+
+
+
+@csrf_exempt
 def teste(request):
     context = { }
     return render(request,'PSO-tsp/index.html',context)

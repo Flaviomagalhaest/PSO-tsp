@@ -1,19 +1,16 @@
 var locais = Array();
+var individuos = Array();
 var valorMin = 0; var valorMax = 1000;
 var tamanhoCirc = 10;
 var elem; var elemJquery;
 var two;
-var individuos = Array();
+var interacao = 0;
 
 $(document).ready(function(){
     elem = document.getElementById('tela');
     elemJquery = $('#tela');
     params = { width: elemJquery.width(), height: elemJquery.height() };
     two = new Two(params).appendTo(elem);
-    
-    $('.accordion-section-title').click(function(e) {
-        var a = 1;
-    });
 });
 
 function plotTela(objetivo) {
@@ -29,9 +26,12 @@ function plotTela(objetivo) {
 
 function limparTela() {
     $('#tela svg').remove() //LIMPANDO TELA
+    individuos = Array();   //Zerando array de individuos
+    locais = Array();       //Zerando array de locais
 }
 
 function gerarPontosIniciais() {
+    limparTela();
     var qtdLocais = $('#qtdLocais').val();
     locais = Array();
     
@@ -45,8 +45,6 @@ function gerarPontosIniciais() {
 
     //Enviando pontos iniciais para o backend
     calcMatrixDist(JSON.stringify(locais));
-
-    limparTela();
     plotTela();
 }
 
@@ -94,8 +92,11 @@ function montaModalComIndividuos() {
     '
     return html;
 }
-function gerarIteracao() {
-
+function gerarIteracao(numeroIteracoes) {
+    var retornoAjax;
+    if(individuos.length > 0) {
+        retornoAjax = iterar(interacao, numeroIteracoes);
+    }
 }
 
 function randomIntFromInterval(min,max)
@@ -107,8 +108,8 @@ function criaPontosClick() {
     gerarPontosIniciais();
 }
 
-function gerarIteracaoClick() {
-    gerarIteracao();
+function gerarProxIteracaoClick() {
+    gerarIteracao(1);
 }
 
 function limparTelaClick() {

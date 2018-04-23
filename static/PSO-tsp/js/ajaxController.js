@@ -31,3 +31,22 @@ function geraPopInicial(qtdIndiv) {
     });    
     return retorno;  
 }
+
+function iterar(nrIteracaoAtual, nrDeIteracoes) {
+    //Envia numero atual de iteracao e o número de iterações a mais para computar
+    var retorno
+    $.ajax({
+        type: 'POST',
+        url: '/PSO-tsp/geraIteracao/',
+        async: false,
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify({ 
+            iteracaoAtual: nrIteracaoAtual,
+            nrIteracoes: nrDeIteracoes,
+        }),
+        success: function(response){
+            retorno = response;
+        }
+    });    
+    return retorno;  
+}
