@@ -15,9 +15,9 @@ class PSOTspTestCase(TestCase):
 
     #Criando individuos para testes
     indivJson = []
-    indivJson.append('{"atual": [5, 4, 0, 3, 9, 6, 7, 8, 2, 1, 5], "pbest": [], "distAtual": 4415.696909091138, "distPbest": 0, "gbest": false}')
-    indivJson.append('{"atual": [1, 4, 9, 2, 5, 3, 8, 7, 6, 0, 1], "pbest": [], "distAtual": 4006.7252376388124, "distPbest": 0, "gbest": false}')
-    indivJson.append('{"atual": [6, 3, 7, 4, 8, 1, 2, 0, 5, 9, 6], "pbest": [], "distAtual": 4472.919868660942, "distPbest": 0, "gbest": false}')
+    indivJson.append('{"atual": [5, 4, 0, 3, 9, 6, 7, 8, 2, 1, 5], "pbest": [5, 4, 0, 3, 9, 6, 7, 8, 2, 1, 5], "distAtual": 4415.696909091138, "distPbest": 4415.696909091138, "gbest": false}')
+    indivJson.append('{"atual": [1, 4, 9, 2, 5, 3, 8, 7, 6, 0, 1], "pbest": [1, 4, 9, 2, 5, 3, 8, 7, 6, 0, 1], "distAtual": 4006.7252376388124, "distPbest": 4006.7252376388124, "gbest": false}')
+    indivJson.append('{"atual": [6, 3, 7, 4, 8, 1, 2, 0, 5, 9, 6], "pbest": [6, 3, 7, 4, 8, 1, 2, 0, 5, 9, 6], "distAtual": 4472.919868660942, "distPbest": 4472.919868660942, "gbest": false}')
     individuos = []
     for indiv in indivJson:
         individuos.append(I.Individuo(json=json.loads(indiv)))    
@@ -51,11 +51,15 @@ class PSOTspTestCase(TestCase):
 
     def test_defineGbest(self):
         gbest = tspController.atualizaGbest(self.individuos)
-        self.assertEqual(gbest.toJson(), '{"atual": [1, 4, 9, 2, 5, 3, 8, 7, 6, 0, 1], "pbest": [], "distAtual": 4006.7252376388124, "distPbest": 0, "gbest": true}')
         self.assertEqual(self.individuos[1].gbest, True)
     
     def test_definePbests(self):
+        self.individuos[0].atual = [0,1,2,3,4,5,6,7,8,9,0]
+        self.individuos[0].distAtual = 3000
         individuos = tspController.atualizaPbest(self.individuos)
-        self.assertEqual(individuos[0].atual, individuos[0].pbest)
-        self.assertEqual(individuos[1].atual, individuos[1].pbest)
-        self.assertEqual(individuos[2].atual, individuos[2].pbest)
+        self.assertEqual(individuos[0].pbest, [0,1,2,3,4,5,6,7,8,9,0])
+        self.assertEqual(individuos[0].distPbest, 3000)
+
+    def test_executaCrossOverCorretamente(self):
+        retornoCrossOver = tspController.crossOver([1,2,3,4,5], [3,4,5,2,1], 0, 3)
+        self.assertEqual(retornoCrossOver, [3,4,5,1,2])
