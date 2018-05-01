@@ -43,11 +43,13 @@ def geraIteracao(request):
     jsonAjax = json.loads(request.body) #Recebendo numero de iteracao atual e a quantidade a calcular
     iteracaoAtual = jsonAjax['iteracaoAtual']
     nrIteracoes = jsonAjax['nrIteracoes']
-    individuosJson = request.session['individuos']
+    individuosJson = request.session['individuos']  #Buscando individuos na sessao
+    pontosSessao = request.session['pontos']        #Buscando pontos na sessao
     #Gerando iteracoes e atualizando individuos
-    individuos = tspController.geraIteracao(iteracaoAtual,nrIteracoes,individuosJson)
-    return JsonResponse('{[]}', safe=False)
-
+    individuos = tspController.geraIteracao(iteracaoAtual, nrIteracoes, individuosJson, pontosSessao)
+    individuosJson = [i.toJson() for i in individuos]   #Criando lista de individuo em formato serializável em json
+    request.session['individuos'] = individuosJson    #Salvando individuos em sessão
+    return JsonResponse(individuosJson, safe=False)
 
 
 @csrf_exempt

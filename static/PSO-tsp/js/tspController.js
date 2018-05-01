@@ -97,6 +97,10 @@ function gerarIteracao(numeroIteracoes) {
     if(individuos.length > 0) {
         retornoAjax = iterar(interacao, numeroIteracoes);
     }
+    individuos = []
+    retornoAjax.forEach(function(indiv) {
+        individuos.push(JSON.parse(indiv))
+    });
 }
 
 function randomIntFromInterval(min,max)
