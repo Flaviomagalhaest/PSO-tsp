@@ -14,13 +14,37 @@ $(document).ready(function(){
 });
 
 function plotTela(objetivo) {
+    $('#tela svg').remove() //LIMPANDO TELA
     two = new Two(params).appendTo(elem);
     locais.forEach(function(value) {
-        var x = (value.x * elemJquery.width()) / valorMax;
-        var y = (value.y * elemJquery.height()) / valorMax;
-        var circle = two.makeCircle(x, y, tamanhoCirc);
+        // var x = (value.x * elemJquery.width()) / valorMax;
+        // var y = (value.y * elemJquery.height()) / valorMax;
+        var circle = two.makeCircle(value.x, value.y, tamanhoCirc);
         circle.fill = '#000000';
     });
+
+    // Verificando se existe indivíduos para plotar o melhor caminho achado
+    var dist = 0;
+    var melhorResultado = '';
+    if (individuos.length > 0) {
+        individuos.forEach(function(indiv) {
+            if (dist == 0 || indiv.distPbest < dist) {
+                melhorResultado = indiv.pbest;
+            }
+        });
+        if(melhorResultado != '') {
+            for(i = 0; i < melhorResultado.length; i++) {
+                if (i == melhorResultado.length - 1) {
+    
+                } else {
+                    var p1 = locais[melhorResultado[i]];
+                    var p2 = locais[melhorResultado[i + 1]]
+                    var line = two.makeLine(p1.x, p1.y, p2.x, p2.y);
+                    line.fill = '#db1313';
+                }
+            }        
+        }    
+    }
     two.update();
 }
 
@@ -36,8 +60,10 @@ function gerarPontosIniciais() {
     locais = Array();
     
     for(i=0; i <= qtdLocais - 1; i++) {
-        var x = randomIntFromInterval(valorMin, valorMax);
-        var y = randomIntFromInterval(valorMin, valorMax);
+        var x1 = randomIntFromInterval(valorMin, valorMax);
+        var y1 = randomIntFromInterval(valorMin, valorMax);
+        var x = (x1 * elemJquery.width()) / valorMax;
+        var y = (y1 * elemJquery.height()) / valorMax;
         var coord = {x,y};
         
         locais.push(coord);
@@ -101,6 +127,7 @@ function gerarIteracao(numeroIteracoes) {
     retornoAjax.forEach(function(indiv) {
         individuos.push(JSON.parse(indiv))
     });
+    plotTela();
 }
 
 function randomIntFromInterval(min,max)
