@@ -1,5 +1,6 @@
 from django.test import TestCase
 from py.tsp import PontosClass as P
+from py.tsp import PontoClass as Ponto
 from py.tsp import tspController as tspController
 from py.tsp import IndividuoClass as I
 import os, json
@@ -62,4 +63,14 @@ class PSOTspTestCase(TestCase):
 
     def test_executaCrossOverCorretamente(self):
         retornoCrossOver = tspController.crossOver([1,2,3,4,5], [3,4,5,2,1], 0, 3)
-        self.assertEqual(retornoCrossOver, [3,4,5,1,2])
+        self.assertEqual(retornoCrossOver, [3,4,5,1,2,3])
+
+    def test_criaFatorHeuristicoCorretamente(self):
+        ponto = Ponto.Ponto({'x':500, 'y':700})
+        ponto.matrixDist = [1000, 2000, 3000, 0]
+        self.pontosObj.pontos.append(ponto)
+        self.pontosObj.pontos[0].matrixDist.append(1000)
+        self.pontosObj.pontos[1].matrixDist.append(2000)
+        self.pontosObj.pontos[2].matrixDist.append(3000)
+        self.pontosObj.calcFatorHeuristico()
+        self.assertEqual(self.pontosObj.pontos[3].fatorHeuristico, [0,1,2])

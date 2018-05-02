@@ -34,9 +34,7 @@ function plotTela(objetivo) {
         });
         if(melhorResultado != '') {
             for(i = 0; i < melhorResultado.length; i++) {
-                if (i == melhorResultado.length - 1) {
-    
-                } else {
+                if (i != melhorResultado.length - 1) {
                     var p1 = locais[melhorResultado[i]];
                     var p2 = locais[melhorResultado[i + 1]]
                     var line = two.makeLine(p1.x, p1.y, p2.x, p2.y);
