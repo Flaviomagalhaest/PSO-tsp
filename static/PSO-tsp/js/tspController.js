@@ -116,10 +116,11 @@ function montaModalComIndividuos() {
     '
     return html;
 }
-function gerarIteracao(numeroIteracoes) {
+function gerarIteracao() {
+    var numeroIteracoes = $('#qtdIteracao').val();
     var retornoAjax;
     if(individuos.length > 0) {
-        retornoAjax = iterar(interacao, numeroIteracoes);
+        retornoAjax = iterar(interacao, parseInt(numeroIteracoes));
     }
     individuos = []
     retornoAjax.forEach(function(indiv) {
@@ -138,7 +139,7 @@ function criaPontosClick() {
 }
 
 function gerarProxIteracaoClick() {
-    gerarIteracao(1);
+    gerarIteracao();
 }
 
 function limparTelaClick() {
