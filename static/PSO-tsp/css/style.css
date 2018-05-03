@@ -1,6 +1,6 @@
 #tela {
     width: 75%;
-    height: 80%;
+    height: 90%;
     margin: 2%;
     border: 1px solid #ccc;
     border-radius: 20px;
@@ -15,14 +15,14 @@ a {
 
 #menu {    
     width: 15%;
-    height: 80%;
+    height: 90%;
     margin: 2%;
     float: right;
     border: 1px solid #ccc;
     border-radius: 20px;
     min-height: 318px;
     min-width: 185px;
-    padding-top: 3%;
+    padding-top: 1.5%;
 }
 
 .botaoMenuDiv{

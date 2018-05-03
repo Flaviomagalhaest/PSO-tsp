@@ -14,10 +14,18 @@
 <div id="menu">
     <div class="itemMenu">
         <div class="botaoMenuDiv">
+            <select name="selectProb">
+                <option value=''></option>
+                {% for element in arquivos %}
+                <option value={{ element }}>{{ element }} </option>
+                {% endfor %}
+            </select>
+        </div>          
+        <div class="botaoMenuDiv">
             <input type="text" id="qtdLocais" placeholder="Qtd. de locais">
         </div>       
         <div class="botaoMenuDiv">
-            <a id="criaPontos" onclick="criaPontosClick()" class="botaoMenu btn--red">Criar pontos de locais</a>
+            <a id="criaPontos" onclick="criaPontosClick()" class="botaoMenu btn--red">Criar pontos</a>
         </div>        
     </div>
     <div class="itemMenu">
@@ -25,7 +33,7 @@
             <input type="text" id="qtdIndiv" placeholder="Qtd. de Individuos">
         </div>
         <div class="botaoMenuDiv">
-            <a id="criarIndiv" onclick="criaIndivClick()" class="botaoMenu btn--red">Criar Individuos</a>
+            <a id="criarIndiv" onclick="criaIndivClick()" class="botaoMenu btn--red">Criar Indiv</a>
         </div>
     </div>
     <div class="itemMenu">

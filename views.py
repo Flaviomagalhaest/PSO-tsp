@@ -3,11 +3,13 @@ from django.template import loader
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from py.tsp import tspController as tspController
-import json
+import json, os
 
 def index(request):
     template = loader.get_template('PSO-tsp/index.html')
-    context = { }
+    #Lê arquivos txt de problemas padrão que se encontram na pasta
+    arquivos = os.listdir('psoweb/PSO-tsp/static/PSO-tsp/file')
+    context = { 'arquivos' : arquivos }
     return render(request,'PSO-tsp/index.html',context)
 
 @csrf_exempt
