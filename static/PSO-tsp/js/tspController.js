@@ -54,21 +54,27 @@ function limparTela() {
 
 function gerarPontosIniciais() {
     limparTela();
+    var prob = $('#selectProb').val();
     var qtdLocais = $('#qtdLocais').val();
     locais = Array();
     
-    for(i=0; i <= qtdLocais - 1; i++) {
-        var x1 = randomIntFromInterval(valorMin, valorMax);
-        var y1 = randomIntFromInterval(valorMin, valorMax);
-        var x = (x1 * elemJquery.width()) / valorMax;
-        var y = (y1 * elemJquery.height()) / valorMax;
-        var coord = {x,y};
-        
-        locais.push(coord);
+    if (prob != "") {
+        calcMatrixDist(undefined, true, prob);
+    } else {
+        for(i=0; i <= qtdLocais - 1; i++) {
+            var x1 = randomIntFromInterval(valorMin, valorMax);
+            var y1 = randomIntFromInterval(valorMin, valorMax);
+            var x = (x1 * elemJquery.width()) / valorMax;
+            var y = (y1 * elemJquery.height()) / valorMax;
+            var coord = {x,y};
+            
+            locais.push(coord);
+        }
+
+        //Enviando pontos iniciais para o backend
+        calcMatrixDist(JSON.stringify(locais), false);
     }
 
-    //Enviando pontos iniciais para o backend
-    calcMatrixDist(JSON.stringify(locais));
     plotTela();
 }
 

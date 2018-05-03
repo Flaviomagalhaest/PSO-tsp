@@ -1,16 +1,30 @@
 //Concentrarei aqui todas as requisições ajax    
 
 
-function calcMatrixDist(locais) {
-    //Enviando pontos iniciais para o backend
-    $.ajax({
-        type: 'POST',
-        url: '/PSO-tsp/calcMatrixDist/',
-        contentType: 'application/json; charset=utf-8',
-        data: JSON.stringify({ 
-            pontos: locais
-        }),
-    });
+function calcMatrixDist(locais, usarArquivo, nomeDoArquivo) {
+    
+    if (usarArquivo == true) { //Foi escolhido gerar pontos por arquivo txt
+        $.ajax({
+            type: 'POST',
+            url: '/PSO-tsp/calcMatrixDist/',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({ 
+                usarArquivo: usarArquivo,
+                nomeDoArquivo: nomeDoArquivo
+            }),
+        });        
+    } else { //Se lista de pontos, Foi escolhido gerar os pontos por random na tela.
+        //Enviando pontos iniciais para o backend
+        $.ajax({
+            type: 'POST',
+            url: '/PSO-tsp/calcMatrixDist/',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({ 
+                usarArquivo: usarArquivo,
+                pontos: locais
+            }),
+        });
+    }
 }
 
 function geraPopInicial(qtdIndiv) {
