@@ -17,20 +17,18 @@ def calcMatrixDist(request):
     jsonAjax = request.body
     data = json.loads(jsonAjax)     #Pontos iniciais vindo do frontend.
     
-    if data['usarArquivo'] == True:
-        #Os pontos serão importados pelo arquivo txt.
+    if data['usarArquivo'] == True: #Os pontos serão importados pelo arquivo txt.
         f = open("psoweb/PSO-tsp/static/PSO-tsp/file/" + data["nomeDoArquivo"], "r")
         pontosJson = []
         for line in f:
-            pontosJson.append(line.strip())
+            split = line.strip().split()
+
+            pontosJson.append({'x': split[1], 'y' : split[2]})
         a = 1
-    else:
-        #Os pontos serão usados pelos que foram passados pelo front
+    else:   #Os pontos serão usados pelos que foram passados pelo front
         pontosJson = json.loads(data['pontos']) #Transformando em json.
 
-    #Chamando controller que instanciará objeto de pontos e calculará matriz distância.
-    pontosObj = tspController.calcMatrixDist(pontosJson)
-
+    pontosObj = tspController.calcMatrixDist(pontosJson)    #Chamando controller que instanciará objeto de pontos e calculará matriz distância.
     #Salvando informações de pontos em formato JSON em sessão.
     request.session['pontos'] = pontosObj.toJson()
     request.session['qtdPontos'] = len(pontosObj.pontos)

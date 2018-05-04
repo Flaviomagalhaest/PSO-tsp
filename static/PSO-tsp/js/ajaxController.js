@@ -1,7 +1,7 @@
 //Concentrarei aqui todas as requisições ajax    
 
 
-function calcMatrixDist(locais, usarArquivo, nomeDoArquivo) {
+function calcMatrixDist(locais, usarArquivo, nomeDoArquivo, elemJquery) {
     
     if (usarArquivo == true) { //Foi escolhido gerar pontos por arquivo txt
         $.ajax({
@@ -10,7 +10,9 @@ function calcMatrixDist(locais, usarArquivo, nomeDoArquivo) {
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify({ 
                 usarArquivo: usarArquivo,
-                nomeDoArquivo: nomeDoArquivo
+                nomeDoArquivo: nomeDoArquivo,
+                width: elemJquery.width(),
+                height: elemJquery.height()
             }),
         });        
     } else { //Se lista de pontos, Foi escolhido gerar os pontos por random na tela.
