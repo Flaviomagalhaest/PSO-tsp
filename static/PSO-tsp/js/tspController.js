@@ -59,7 +59,10 @@ function gerarPontosIniciais() {
     locais = Array();
     
     if (prob != "") {
-        calcMatrixDist(undefined, true, prob, elemJquery);
+        var retornoPontos = calcMatrixDist(undefined, true, prob, elemJquery);
+        retornoPontos.forEach(function(ponto) {
+            locais.push(ponto);
+        });
     } else {
         for(i=0; i <= qtdLocais - 1; i++) {
             var x1 = randomIntFromInterval(valorMin, valorMax);

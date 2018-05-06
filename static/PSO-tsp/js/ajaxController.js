@@ -2,11 +2,12 @@
 
 
 function calcMatrixDist(locais, usarArquivo, nomeDoArquivo, elemJquery) {
-    
+    var retorno = '';
     if (usarArquivo == true) { //Foi escolhido gerar pontos por arquivo txt
         $.ajax({
             type: 'POST',
             url: '/PSO-tsp/calcMatrixDist/',
+            async: false,
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify({ 
                 usarArquivo: usarArquivo,
@@ -14,6 +15,9 @@ function calcMatrixDist(locais, usarArquivo, nomeDoArquivo, elemJquery) {
                 width: elemJquery.width(),
                 height: elemJquery.height()
             }),
+            success: function(response){
+                retorno = response;
+            }
         });        
     } else { //Se lista de pontos, Foi escolhido gerar os pontos por random na tela.
         //Enviando pontos iniciais para o backend
@@ -27,6 +31,7 @@ function calcMatrixDist(locais, usarArquivo, nomeDoArquivo, elemJquery) {
             }),
         });
     }
+    return JSON.parse(retorno)
 }
 
 function geraPopInicial(qtdIndiv) {

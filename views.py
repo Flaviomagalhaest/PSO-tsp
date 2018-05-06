@@ -2,13 +2,14 @@ from django.shortcuts import render
 from django.template import loader
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from . import assembler as assembler
 from py.tsp import tspController as tspController
 import json, os
 
 def index(request):
     template = loader.get_template('PSO-tsp/index.html')
     #Lê arquivos txt de problemas padrão que se encontram na pasta
-    arquivos = os.listdir('psoweb/PSO-tsp/static/PSO-tsp/file')
+    arquivos = os.listdir('PSO-tsp/static/PSO-tsp/file')
     context = { 'arquivos' : arquivos }
     return render(request,'PSO-tsp/index.html',context)
 
@@ -17,14 +18,9 @@ def calcMatrixDist(request):
     jsonAjax = request.body
     data = json.loads(jsonAjax)     #Pontos iniciais vindo do frontend.
     
+    #Alimentando lista de pontos. Por arquivo ou pelos pontos passados do front.
     if data['usarArquivo'] == True: #Os pontos serão importados pelo arquivo txt.
-        f = open("psoweb/PSO-tsp/static/PSO-tsp/file/" + data["nomeDoArquivo"], "r")
-        pontosJson = []
-        for line in f:
-            split = line.strip().split()
-
-            pontosJson.append({'x': split[1], 'y' : split[2]})
-        a = 1
+        pontosJson = assembler.lerArquivoDePontos(data["nomeDoArquivo"], data["width"], data["height"])
     else:   #Os pontos serão usados pelos que foram passados pelo front
         pontosJson = json.loads(data['pontos']) #Transformando em json.
 
@@ -33,7 +29,7 @@ def calcMatrixDist(request):
     request.session['pontos'] = pontosObj.toJson()
     request.session['qtdPontos'] = len(pontosObj.pontos)
 
-    return HttpResponse("Pontos iniciais recebidos com sucesso!")
+    return JsonResponse(request.session['pontos'], safe=False)
 
 @csrf_exempt
 def geraPopInicial(request):
