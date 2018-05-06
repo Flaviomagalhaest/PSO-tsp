@@ -16,15 +16,21 @@ def index(request):
 @csrf_exempt
 def calcMatrixDist(request):
     jsonAjax = request.body
-    data = json.loads(jsonAjax)     #Pontos iniciais vindo do frontend.
+    
+    #Pontos iniciais vindo do frontend.
+    data = json.loads(jsonAjax)     
     
     #Alimentando lista de pontos. Por arquivo ou pelos pontos passados do front.
-    if data['usarArquivo'] == True: #Os pontos serão importados pelo arquivo txt.
+    #Se TRUE, Os pontos serão importados pelo arquivo txt.
+    #Se FALSE, Os pontos serão usados pelos que foram passados pelo front
+    if data['usarArquivo'] == True: 
         pontosJson = assembler.lerArquivoDePontos(data["nomeDoArquivo"], data["width"], data["height"])
-    else:   #Os pontos serão usados pelos que foram passados pelo front
+    else:   
         pontosJson = json.loads(data['pontos']) #Transformando em json.
-
-    pontosObj = tspController.calcMatrixDist(pontosJson)    #Chamando controller que instanciará objeto de pontos e calculará matriz distância.
+    
+    #Chamando controller que instanciará objeto de pontos e calculará matriz distância.
+    pontosObj = tspController.calcMatrixDist(pontosJson)    
+    
     #Salvando informações de pontos em formato JSON em sessão.
     request.session['pontos'] = pontosObj.toJson()
     request.session['qtdPontos'] = len(pontosObj.pontos)
@@ -33,15 +39,22 @@ def calcMatrixDist(request):
 
 @csrf_exempt
 def geraPopInicial(request):
-    jsonAjax = json.loads(request.body) #Recebendo quantidade de indivíduos a criar.
+
+    #Recebendo quantidade de indivíduos a criar.
+    jsonAjax = json.loads(request.body)
     
     qtdIndiv = json.loads(jsonAjax['individuos'])
     qtdPontos = request.session['qtdPontos']
     pontosSessao = request.session['pontos']
+
     #Gerando individuos iniciais
     individuos = tspController.geraPopInicial(qtdIndiv, qtdPontos, pontosSessao)
-    individuosJson = [i.toJson() for i in individuos]   #Criando lista de individuo em formato serializável em json
-    request.session['individuos'] = individuosJson    #Salvando individuos em sessão
+    
+    #Criando lista de individuo em formato serializável em json
+    individuosJson = [i.toJson() for i in individuos]   
+    
+    #Salvando individuos em sessão
+    request.session['individuos'] = individuosJson
     return JsonResponse(individuosJson, safe=False)
 
 @csrf_exempt
